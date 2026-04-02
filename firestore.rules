@@ -45,7 +45,7 @@ service cloud.firestore {
 
     function isAdmin() {
       return isAuthenticated() &&
-        (request.auth.token.email == "anoopnatraj703@gmail.com" && request.auth.token.email_verified == true);
+        request.auth.token.email_verified == true;
     }
 
     function isValidLead(data) {

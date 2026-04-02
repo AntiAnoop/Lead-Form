@@ -209,20 +209,6 @@ const JapanProgramForm = () => {
               </p>
             </div>
 
-            {/* Account Info Section */}
-            <div className="border-t border-gray-200 pt-4 mt-4 flex flex-col gap-2">
-              <div className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-1">
-                  <span className="font-medium">anoopnatraj703@gmail.com</span>
-                  <button type="button" className="text-blue-600 hover:underline">Switch accounts</button>
-                </div>
-                <Cloud className="w-4 h-4 text-gray-500" />
-              </div>
-              <div className="flex items-center gap-2 text-xs text-gray-500">
-                <EyeOff className="w-3 h-3" />
-                <span>Not shared</span>
-              </div>
-            </div>
           </div>
           <div className="px-4 sm:px-8 py-3 border-t border-gray-200">
             <div className="text-sm text-red-600 font-medium">* Indicates required question</div>
