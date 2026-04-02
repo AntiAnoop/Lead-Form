@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+@theme {
+  --font-sans: "Roboto", "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background-color: #f8e8e8;
+  color: #202124;
+}
+
+.google-input {
+  @apply w-full border-b border-gray-300 focus:border-[#a52714] focus:border-b-2 outline-none py-2 transition-all bg-transparent text-sm;
+}
+
+.google-card {
+  @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-2 sm:mb-3;
+}

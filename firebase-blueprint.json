@@ -1,0 +1,31 @@
+{
+  "entities": {
+    "JapanProgramLead": {
+      "title": "Japan Program Lead",
+      "description": "A lead for the Zenro Training and Placement Program for Japan.",
+      "type": "object",
+      "properties": {
+        "full_name": { "type": "string", "description": "Applicant's full name" },
+        "email": { "type": "string", "format": "email", "description": "Applicant's email address" },
+        "phone": { "type": "string", "description": "Applicant's phone number" },
+        "state": { "type": "string", "description": "Applicant's state" },
+        "city": { "type": "string", "description": "Applicant's city" },
+        "willing_to_train": { "type": "string", "enum": ["Yes, I am willing to undergo six months of training", "No, I am not willing", "I am already bilingual"], "description": "Willingness to undergo training" },
+        "education": { "type": "string", "description": "Highest education qualification" },
+        "job_role": { "type": "string", "enum": ["Hospitality", "Automobile Repair", "Warehouse Management", "Driving", "Automobile Transportation", "IT/Software"], "description": "Interested job role" },
+        "investment_comfort": { "type": "string", "enum": ["Yes", "No"], "description": "Comfort with investment" },
+        "achievement": { "type": "string", "description": "Biggest achievement" },
+        "reason_for_japan": { "type": "string", "description": "Reason for going to Japan" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Timestamp when the lead was created" },
+        "uid": { "type": "string", "description": "UID of the user who submitted the form (if authenticated)" }
+      },
+      "required": ["full_name", "email", "phone", "state", "city", "willing_to_train", "education", "job_role", "investment_comfort", "achievement", "reason_for_japan", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/japan_program_leads/{leadId}": {
+      "schema": "JapanProgramLead",
+      "description": "Collection of leads for the Japan program."
+    }
+  }
+}

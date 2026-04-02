@@ -1,0 +1,89 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: japan_program_leads
+    // Document ID: auto-generated
+    // Fields:
+    //   - full_name: string (required, 1-100 chars)
+    //   - email: string (required, valid email)
+    //   - phone: string (required, 10-20 chars)
+    //   - state: string (required, 1-50 chars)
+    //   - city: string (required, 1-50 chars)
+    //   - willing_to_train: string (required, enum)
+    //   - education: string (required, 1-100 chars)
+    //   - job_role: string (required, enum)
+    //   - investment_comfort: string (required, enum)
+    //   - achievement: string (required, 1-2000 chars)
+    //   - reason_for_japan: string (required, 1-2000 chars)
+    //   - createdAt: timestamp (required)
+    //   - uid: string (optional, matches auth.uid)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidString(val, min, max) {
+      return val is string && val.size() >= min && val.size() <= max;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (request.auth.token.email == "anoopnatraj703@gmail.com" && request.auth.token.email_verified == true);
+    }
+
+    function isValidLead(data) {
+      let requiredFields = [
+        'full_name', 'email', 'phone', 'state', 'city', 
+        'willing_to_train', 'education', 'job_role', 
+        'investment_comfort', 'achievement', 'reason_for_japan', 
+        'createdAt'
+      ];
+      return data.keys().hasAll(requiredFields) &&
+        isValidString(data.full_name, 1, 100) &&
+        isValidEmail(data.email) &&
+        isValidString(data.phone, 10, 20) &&
+        isValidString(data.state, 1, 50) &&
+        isValidString(data.city, 1, 50) &&
+        data.willing_to_train in ["Yes, I am willing to undergo six months of training", "No, I am not willing", "I am already bilingual"] &&
+        isValidString(data.education, 1, 100) &&
+        data.job_role in ["Hospitality", "Automobile Repair", "Warehouse Management", "Driving", "Automobile Transportation", "IT/Software"] &&
+        data.investment_comfort in ["Yes", "No"] &&
+        isValidString(data.achievement, 1, 2000) &&
+        isValidString(data.reason_for_japan, 1, 2000) &&
+        data.createdAt is timestamp &&
+        (!('uid' in data) || (data.uid == request.auth.uid));
+    }
+
+    match /japan_program_leads/{leadId} {
+      // Anyone can submit a lead (public submission)
+      allow create: if isValidLead(request.resource.data);
+      
+      // Only admins can read or delete leads
+      allow read, delete: if isAdmin();
+      
+      // Leads are generally not updated once submitted
+      allow update: if false;
+    }
+
+    match /users/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+  }
+}
