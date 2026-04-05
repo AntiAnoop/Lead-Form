@@ -68,41 +68,58 @@ const VideoCard = ({ id, index }: { id: string, index: number }) => {
   const [isPlaying, setIsPlaying] = useState(false);
 
   return (
-    <div className="flex-none w-[160px] sm:w-[200px] snap-center">
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1, duration: 0.5, ease: "easeOut" }}
+      className="flex-none w-[160px] sm:w-[220px] snap-center"
+    >
       <div 
-        className="aspect-[9/16] w-full bg-black rounded-xl overflow-hidden shadow-md border border-gray-100 relative group cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+        className="aspect-[9/16] w-full bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/10 relative group cursor-pointer transition-all duration-500 hover:shadow-[0_20px_50px_rgba(165,39,20,0.15)]"
         onClick={() => !isPlaying && setIsPlaying(true)}
       >
         {!isPlaying ? (
           <div className="w-full h-full relative">
             <img 
               src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`} 
-              alt={`Thumbnail ${index + 1}`}
-              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+              alt={`Candidate Success Story ${index + 1}`}
+              className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700 ease-in-out"
               referrerPolicy="no-referrer"
               loading="lazy"
             />
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 group-hover:from-black/10 transition-all duration-500" />
+            
+            {/* Play Button Overlay */}
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-red-600 shadow-xl group-hover:bg-red-600 group-hover:text-white transition-all duration-300 transform group-hover:scale-110">
-                <Play size={20} fill="currentColor" />
+              <div className="relative">
+                <div className="absolute inset-0 bg-[#a52714] rounded-full blur-md opacity-0 group-hover:opacity-40 transition-opacity duration-500 scale-150" />
+                <div className="w-12 h-12 bg-white/95 backdrop-blur-sm rounded-full flex items-center justify-center text-[#a52714] shadow-2xl group-hover:bg-[#a52714] group-hover:text-white transition-all duration-500 transform group-hover:scale-110 z-10">
+                  <Play size={22} fill="currentColor" className="ml-1" />
+                </div>
               </div>
             </div>
-            {/* Gradient Overlay for depth */}
-            <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+
+            {/* Candidate Label */}
+            <div className="absolute bottom-4 left-4 right-4">
+              <div className="flex items-center gap-2">
+                <div className="h-1 w-6 bg-[#a52714] rounded-full" />
+                <span className="text-[10px] font-bold text-white uppercase tracking-widest opacity-80 group-hover:opacity-100 transition-opacity">Success Story</span>
+              </div>
+            </div>
           </div>
         ) : (
           <iframe
             className="w-full h-full"
-            src={`https://www.youtube.com/embed/${id}?autoplay=1&modestbranding=1&rel=0`}
-            title={`Zenro Japan Program Insight ${index + 1}`}
+            src={`https://www.youtube.com/embed/${id}?autoplay=1&modestbranding=1&rel=0&showinfo=0&controls=1`}
+            title={`Zenro Candidate Placement ${index + 1}`}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
           ></iframe>
         )}
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -409,12 +426,20 @@ const JapanProgramForm = () => {
         </div>
 
         {/* YouTube Shorts Section */}
-        <div className="google-card !mb-12 overflow-hidden">
-          <label className="block text-base font-normal mb-6 uppercase text-[10px] sm:text-xs font-bold text-gray-500 tracking-[0.2em] text-center">75+ Candidates Already Placed in Japan</label>
+        <div className="google-card !mb-12 overflow-hidden bg-gradient-to-b from-white to-[#fcfcfc] border border-gray-100 shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+          <div className="flex flex-col items-center mb-8">
+            <span className="bg-[#a52714]/5 text-[#a52714] px-3 py-1 rounded-full text-[10px] font-bold tracking-[0.2em] uppercase mb-3 border border-[#a52714]/10">
+              Impact & Results
+            </span>
+            <h2 className="text-xl sm:text-2xl font-medium text-gray-900 text-center">
+              75+ Candidates Already Placed in Japan
+            </h2>
+            <div className="h-1 w-12 bg-[#a52714] rounded-full mt-4 opacity-20" />
+          </div>
           
           <div className="relative -mx-4 sm:-mx-6">
             <div 
-              className="flex overflow-x-auto gap-4 px-4 sm:px-6 pb-6 snap-x snap-mandatory no-scrollbar scroll-smooth" 
+              className="flex overflow-x-auto gap-5 px-4 sm:px-6 pb-8 snap-x snap-mandatory no-scrollbar scroll-smooth" 
               style={{ 
                 scrollbarWidth: 'none', 
                 msOverflowStyle: 'none',
@@ -433,19 +458,26 @@ const JapanProgramForm = () => {
                 <VideoCard key={id} id={id} index={index} />
               ))}
               {/* Spacer for end of scroll */}
-              <div className="flex-none w-1" />
+              <div className="flex-none w-4" />
             </div>
             
-            {/* Visual Fade indicators for "both ways" feel */}
-            <div className="absolute left-0 top-0 bottom-6 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none z-10 opacity-60" />
-            <div className="absolute right-0 top-0 bottom-6 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 opacity-60" />
+            {/* Visual Fade indicators */}
+            <div className="absolute left-0 top-0 bottom-8 w-12 bg-gradient-to-r from-white via-white/40 to-transparent pointer-events-none z-10" />
+            <div className="absolute right-0 top-0 bottom-8 w-12 bg-gradient-to-l from-white via-white/40 to-transparent pointer-events-none z-10" />
           </div>
 
-          <p className="mt-2 text-[10px] sm:text-xs text-gray-400 font-medium text-center flex items-center justify-center gap-2">
-            <span className="w-8 h-[1px] bg-gray-200"></span>
-            SWIPE TO EXPLORE
-            <span className="w-8 h-[1px] bg-gray-200"></span>
-          </p>
+          <div className="flex flex-col items-center gap-3">
+            <p className="text-[10px] sm:text-xs text-gray-400 font-bold tracking-[0.25em] uppercase flex items-center gap-3">
+              <span className="w-6 h-[1px] bg-gray-100"></span>
+              Swipe to Explore
+              <span className="w-6 h-[1px] bg-gray-100"></span>
+            </p>
+            <div className="flex gap-1">
+              {[0, 1, 2].map(i => (
+                <div key={i} className={`h-1 rounded-full bg-[#a52714] transition-all duration-500 ${i === 0 ? 'w-4' : 'w-1 opacity-20'}`} />
+              ))}
+            </div>
+          </div>
         </div>
 
         {/* Social Media Section */}
