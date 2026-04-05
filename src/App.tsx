@@ -212,11 +212,11 @@ const JapanProgramForm = () => {
         className="max-w-[640px] mx-auto space-y-2 sm:space-y-3"
       >
         {/* Banner Image */}
-        <div className="w-full rounded-lg overflow-hidden mb-2 shadow-sm border border-gray-100">
+        <div className="w-full rounded-lg overflow-hidden mb-2 shadow-sm border border-gray-100 aspect-[16/5] sm:aspect-[16/4.5]">
           <img 
             src="https://raw.githubusercontent.com/AntiAnoop/Lead-Form/main/Join%20Our%20Team%20(1).png" 
             alt="Zenro Training Program" 
-            className="w-full h-auto block"
+            className="w-full h-full object-cover object-center scale-[1.15]"
             referrerPolicy="no-referrer"
           />
         </div>
@@ -499,11 +499,11 @@ const JapanProgramForm = () => {
         </div>
 
         {/* Office Contact Image */}
-        <div className="w-full rounded-lg overflow-hidden mb-8 shadow-sm border border-gray-100">
+        <div className="w-full rounded-lg overflow-hidden mb-8 shadow-sm border border-gray-100 aspect-[16/10] sm:aspect-[16/9]">
           <img 
             src="https://raw.githubusercontent.com/AntiAnoop/Lead-Form/main/Join%20Our%20Team%20(2).png" 
             alt="Zenro Office Contacts" 
-            className="w-full h-auto block"
+            className="w-full h-full object-cover object-center scale-[1.1]"
             referrerPolicy="no-referrer"
           />
         </div>
