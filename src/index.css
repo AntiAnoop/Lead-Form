@@ -18,3 +18,12 @@ body {
 .google-card {
   @apply bg-white rounded-lg shadow-sm border border-gray-200 p-4 sm:p-6 mb-2 sm:mb-3;
 }
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

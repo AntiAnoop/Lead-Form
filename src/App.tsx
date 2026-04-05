@@ -6,7 +6,7 @@
 import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
 import { supabase } from './supabase';
 import { motion, AnimatePresence } from 'motion/react';
-import { CheckCircle2, AlertCircle, Loader2, Cloud, EyeOff, CloudOff } from 'lucide-react';
+import { CheckCircle2, AlertCircle, Loader2, Cloud, EyeOff, CloudOff, Youtube, Instagram, Linkedin, Facebook, Play } from 'lucide-react';
 
 // --- Error Handling ---
 
@@ -62,6 +62,49 @@ class ErrorBoundary extends Component<{ children: ReactNode }, { hasError: boole
 }
 
 // --- Main Application ---
+
+// --- Video Card Component for Performance ---
+const VideoCard = ({ id, index }: { id: string, index: number }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  return (
+    <div className="flex-none w-[160px] sm:w-[200px] snap-center">
+      <div 
+        className="aspect-[9/16] w-full bg-black rounded-xl overflow-hidden shadow-md border border-gray-100 relative group cursor-pointer transition-transform duration-300 hover:scale-[1.02]"
+        onClick={() => !isPlaying && setIsPlaying(true)}
+      >
+        {!isPlaying ? (
+          <div className="w-full h-full relative">
+            <img 
+              src={`https://img.youtube.com/vi/${id}/hqdefault.jpg`} 
+              alt={`Thumbnail ${index + 1}`}
+              className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity duration-300"
+              referrerPolicy="no-referrer"
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-red-600 shadow-xl group-hover:bg-red-600 group-hover:text-white transition-all duration-300 transform group-hover:scale-110">
+                <Play size={20} fill="currentColor" />
+              </div>
+            </div>
+            {/* Gradient Overlay for depth */}
+            <div className="absolute bottom-0 left-0 right-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+          </div>
+        ) : (
+          <iframe
+            className="w-full h-full"
+            src={`https://www.youtube.com/embed/${id}?autoplay=1&modestbranding=1&rel=0`}
+            title={`Zenro Japan Program Insight ${index + 1}`}
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          ></iframe>
+        )}
+      </div>
+    </div>
+  );
+};
 
 const JapanProgramForm = () => {
   const [formData, setFormData] = useState<Record<string, any>>({});
@@ -169,21 +212,13 @@ const JapanProgramForm = () => {
         className="max-w-[640px] mx-auto space-y-2 sm:space-y-3"
       >
         {/* Banner Image */}
-        <div className="w-full h-[120px] sm:h-[180px] bg-[#a52714] rounded-lg overflow-hidden mb-2 relative flex items-center justify-center">
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
-          <div className="relative flex items-center gap-4">
-            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center overflow-hidden border-4 border-red-900/20 shadow-xl">
-              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-[#bc002d] rounded-full"></div>
-            </div>
-            <div className="w-24 h-24 sm:w-32 sm:h-32 bg-white rounded-full flex items-center justify-center overflow-hidden border-4 border-red-900/20 shadow-xl relative">
-              <div className="absolute inset-0 flex flex-col">
-                <div className="flex-1 bg-[#ff9933]"></div>
-                <div className="flex-1 bg-white"></div>
-                <div className="flex-1 bg-[#138808]"></div>
-              </div>
-              <div className="w-4 h-4 sm:w-6 sm:h-6 border-2 border-[#000080] rounded-full relative z-10"></div>
-            </div>
-          </div>
+        <div className="w-full rounded-lg overflow-hidden mb-2 shadow-sm border border-gray-100">
+          <img 
+            src="https://raw.githubusercontent.com/AntiAnoop/Lead-Form/main/Join%20Our%20Team%20(1).png" 
+            alt="Zenro Training Program" 
+            className="w-full h-auto block"
+            referrerPolicy="no-referrer"
+          />
         </div>
 
         {/* Header Card */}
@@ -373,33 +408,104 @@ const JapanProgramForm = () => {
         </div>
 
         {/* YouTube Shorts Section */}
-        <div className="google-card !mb-12">
-          <label className="block text-base font-normal mb-4 uppercase text-[10px] sm:text-xs font-bold text-gray-500 tracking-wider text-center">75+ Candidates Already Placed in Japan</label>
-          <div className="grid grid-cols-2 gap-2 sm:gap-6">
-            <div className="aspect-[9/16] w-full bg-black rounded-lg overflow-hidden shadow-sm border border-gray-100">
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/i5ZEc1NbBa8"
-                title="Zenro Japan Program Insight 1"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
+        <div className="google-card !mb-12 overflow-hidden">
+          <label className="block text-base font-normal mb-6 uppercase text-[10px] sm:text-xs font-bold text-gray-500 tracking-[0.2em] text-center">75+ Candidates Already Placed in Japan</label>
+          
+          <div className="relative -mx-4 sm:-mx-6">
+            <div 
+              className="flex overflow-x-auto gap-4 px-4 sm:px-6 pb-6 snap-x snap-mandatory no-scrollbar scroll-smooth" 
+              style={{ 
+                scrollbarWidth: 'none', 
+                msOverflowStyle: 'none',
+                WebkitOverflowScrolling: 'touch'
+              }}
+            >
+              {[
+                'i5ZEc1NbBa8',
+                'QL4coeotzLY',
+                'klNVypEQwkQ',
+                'X89-x5UR28Q',
+                'lHcm8RunV4M',
+                'X6WLEnSzxW8',
+                'qqwMK89a94Q'
+              ].map((id, index) => (
+                <VideoCard key={id} id={id} index={index} />
+              ))}
+              {/* Spacer for end of scroll */}
+              <div className="flex-none w-1" />
             </div>
-            <div className="aspect-[9/16] w-full bg-black rounded-lg overflow-hidden shadow-sm border border-gray-100">
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/QL4coeotzLY"
-                title="Zenro Japan Program Insight 2"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              ></iframe>
-            </div>
+            
+            {/* Visual Fade indicators for "both ways" feel */}
+            <div className="absolute left-0 top-0 bottom-6 w-8 bg-gradient-to-r from-white to-transparent pointer-events-none z-10 opacity-60" />
+            <div className="absolute right-0 top-0 bottom-6 w-8 bg-gradient-to-l from-white to-transparent pointer-events-none z-10 opacity-60" />
           </div>
-          <p className="mt-4 text-[10px] sm:text-xs text-gray-500 italic">
-            Watch these brief insights into our training and placement process in Japan.
+
+          <p className="mt-2 text-[10px] sm:text-xs text-gray-400 font-medium text-center flex items-center justify-center gap-2">
+            <span className="w-8 h-[1px] bg-gray-200"></span>
+            SWIPE TO EXPLORE
+            <span className="w-8 h-[1px] bg-gray-200"></span>
           </p>
+        </div>
+
+        {/* Social Media Section */}
+        <div className="google-card flex flex-col items-center py-6">
+          <h3 className="text-[10px] sm:text-xs font-bold text-gray-500 mb-4 tracking-widest uppercase">Follow Zenro on Socials</h3>
+          <div className="flex gap-6">
+            <motion.a 
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              href="https://www.youtube.com/@zenrojapan" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-full bg-red-50 text-red-600 hover:bg-red-100 transition-colors shadow-sm"
+              title="YouTube"
+            >
+              <Youtube size={20} />
+            </motion.a>
+            <motion.a 
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              href="https://www.instagram.com/zenro.japan/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-full bg-pink-50 text-pink-600 hover:bg-pink-100 transition-colors shadow-sm"
+              title="Instagram"
+            >
+              <Instagram size={20} />
+            </motion.a>
+            <motion.a 
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              href="https://www.linkedin.com/company/japan-zenro/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-full bg-blue-50 text-blue-700 hover:bg-blue-100 transition-colors shadow-sm"
+              title="LinkedIn"
+            >
+              <Linkedin size={20} />
+            </motion.a>
+            <motion.a 
+              whileHover={{ scale: 1.15 }}
+              whileTap={{ scale: 0.9 }}
+              href="https://www.facebook.com/profile.php?id=61563344973816&mibextid=kFxxJD" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-full bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors shadow-sm"
+              title="Facebook"
+            >
+              <Facebook size={20} />
+            </motion.a>
+          </div>
+        </div>
+
+        {/* Office Contact Image */}
+        <div className="w-full rounded-lg overflow-hidden mb-8 shadow-sm border border-gray-100">
+          <img 
+            src="https://raw.githubusercontent.com/AntiAnoop/Lead-Form/main/Join%20Our%20Team%20(2).png" 
+            alt="Zenro Office Contacts" 
+            className="w-full h-auto block"
+            referrerPolicy="no-referrer"
+          />
         </div>
       </motion.form>
     </div>
