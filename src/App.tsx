@@ -2,9 +2,8 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-import { supabase } from './supabaseClient' // <-- PASTE THIS AT THE VERY TOP
 import React, { useState, useEffect, Component, ErrorInfo, ReactNode } from 'react';
-import { supabase } from './supabase';
+import { supabase } from './supabaseClient'; // This connects to the file you made in Step 1
 import { motion, AnimatePresence } from 'motion/react';
 import { CheckCircle2, AlertCircle, Loader2, Cloud, EyeOff, CloudOff, Youtube, Instagram, Linkedin, Facebook, Play } from 'lucide-react';
 
